@@ -1,0 +1,11 @@
+
+#Animated Tile Plot
+
+ggp<-ggplot(Elo_Today, aes(x=(reorder(Elo_Today$`Team/w Record`,Elo_Today$ELO)), y=Elo_Today$ELO,color=Elo_Today$`Team/w Record`,fill=Elo_Today$`Team/w Record`)) + 
+    geom_tile(stat='identity',width=.75)+scale_fill_manual(values = nba_palette_1, guide = FALSE) + scale_color_manual(values = nba_palette_2, guide = FALSE) +labs(title ='{closest_state}') + transition_states(Elo_Today$Date,transition_length = 2,state_length = 0,wrap = T)+theme(text = element_text(size=20),
+                                                                                                                                                                                                                            axis.text.x = element_text(angle=90, hjust=1))+
+    scale_y_continuous(name="Pure Elo Rating")+scale_x_discrete(name="")+coord_flip()+ease_aes('quadratic-in-out')+enter_drift(x_mod = -1)+exit_drift(x_mod=1)
+
+#Outputs Gif
+
+gganimate(ggp,"output.gif")
